@@ -1,0 +1,887 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Server &#8212; Draco</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.1/dist/embed-amd.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visualization Renderer" href="renderer.html" />
+    <link rel="prev" title="Draco Debugging" href="debug_draco.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo-light.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Draco</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Facts
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../facts/intro.html">
+   Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../facts/schema.html">
+   Data and Schema
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../facts/view.html">
+   Views
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../facts/mark.html">
+   Marks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../facts/encoding.html">
+   Encodings
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../facts/scale.html">
+   Scales
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../facts/task.html">
+   Tasks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../facts/facet.html">
+   Facets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../facts/examples.html">
+   Example Charts
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  API
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../api/intro.html">
+   Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../api/draco.html">
+   Draco Helper Class
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../api/schema.html">
+   Read Data and Generate the Schema
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../api/run.html">
+   Run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../api/facts.html">
+   Fact Utils
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../api/programs.html">
+   Programs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../api/server.html">
+   Server
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../api/renderer.html">
+   Renderer
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Applications
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="recommendation.html">
+   Visualization Recommendation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="draco_learn.html">
+   Learning Weights for the Draco Model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="debug_draco.html">
+   Draco Debugging
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Server
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="renderer.html">
+   Visualization Renderer
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Guide
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../guide.html">
+   Guides
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../bibliography.html">
+   Bibliography
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/cmudig/draco2"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/cmudig/draco2/issues/new?title=Issue%20on%20page%20%2Fapplications/server.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/cmudig/draco2/edit/main/docs/applications/server.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/applications/server.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#starting-the-server">
+   Starting the Server
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#command-line-interface">
+     Command Line Interface
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#standalone-python-program">
+     Standalone Python Program
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#minimal-example">
+       Minimal Example
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#via-quick-command">
+         Via Quick Command
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#via-main">
+         Via
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           __main__
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#customizing-existing-routes">
+       Customizing Existing Routes
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#adding-new-routes">
+       Adding New Routes
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#further-customization">
+   Further Customization
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Server</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#starting-the-server">
+   Starting the Server
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#command-line-interface">
+     Command Line Interface
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#standalone-python-program">
+     Standalone Python Program
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#minimal-example">
+       Minimal Example
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#via-quick-command">
+         Via Quick Command
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#via-main">
+         Via
+         <code class="docutils literal notranslate">
+          <span class="pre">
+           __main__
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#customizing-existing-routes">
+       Customizing Existing Routes
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#adding-new-routes">
+       Adding New Routes
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#further-customization">
+   Further Customization
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="server">
+<h1>Server<a class="headerlink" href="#server" title="Permalink to this headline">#</a></h1>
+<p>If you want to use Draco in an environment other than Python, you can access its capabilities through a dedicated REST
+API, built with <a class="reference external" href="https://fastapi.tiangolo.com/">FastAPI</a>.</p>
+<section id="starting-the-server">
+<h2>Starting the Server<a class="headerlink" href="#starting-the-server" title="Permalink to this headline">#</a></h2>
+<p>Based on your needs, you can start the server directly from the command line or as a standalone Python program.</p>
+<ul class="simple">
+<li><p>For simpler use cases such as general exploration of the project or making use of the default Draco model we recommend
+starting the server from the <a class="reference external" href="#command-line-interface">command line</a></p></li>
+<li><p>For more complex use cases such as customizing Draco’s model or extending the API routes, you can start a custom
+server instance as a <a class="reference external" href="#standalone-python-program">standalone Python program</a></p></li>
+</ul>
+<section id="command-line-interface">
+<h3>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">#</a></h3>
+<p>You can start a default instance of the server without passing any arguments:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python -m draco.server
+</pre></div>
+</div>
+<p>A comprehensive OpenAPI documentation of the API will be available at
+<a class="reference external" href="http://127.0.0.1:8000/docs">http://127.0.0.1:8000/docs</a>, also allowing for sending requests directly from the browser
+to get a better idea of how the API works.</p>
+<p>You can access the CLI options by executing <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">draco.server</span> <span class="pre">--help</span></code>.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: python -m draco.server [options]
+
+FastAPI Server exposing the capabilities of Draco
+
+options:
+  -h, --help   show this help message and exit
+  --host HOST  Host to run server on. Defaults to 127.0.0.1
+  --port PORT  Port to run server on. Defaults to 8000
+  --reload     Enable auto-reloading of the server on code changes.
+</pre></div>
+</div>
+<p><em>Please note that the <code class="docutils literal notranslate"><span class="pre">--reload</span></code> option is only relevant for local server development.</em></p>
+</section>
+<section id="standalone-python-program">
+<h3>Standalone Python Program<a class="headerlink" href="#standalone-python-program" title="Permalink to this headline">#</a></h3>
+<p>The main purpose of Draco’s server component is to provide a <strong>minimal</strong> REST API to be able to use it in a
+client-agnostic way. That being said, there is a good chance that the core server does not fit <strong>all</strong> your needs. While
+we focused on simplicity we also did not want to compromise on extensibility. That is why we implemented the server to
+be fully compatible with <a class="reference external" href="https://fastapi.tiangolo.com/">FastAPI</a> and <a class="reference external" href="https://www.uvicorn.org/">Uvicorn</a>.</p>
+<p>Before diving into creating a custom Draco server it might be useful to familiarize yourself with the
+<a class="reference internal" href="../api/server.html"><span class="doc std std-doc">module’s API</span></a>.</p>
+<p>Please note that for all the following examples we assume that you have already installed Draco and its dependencies.</p>
+<section id="minimal-example">
+<h4>Minimal Example<a class="headerlink" href="#minimal-example" title="Permalink to this headline">#</a></h4>
+<section id="via-quick-command">
+<h5>Via Quick Command<a class="headerlink" href="#via-quick-command" title="Permalink to this headline">#</a></h5>
+<p>Create a Python file called <code class="docutils literal notranslate"><span class="pre">my_server.py</span></code> and add the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_server.py</span>
+<span class="kn">from</span> <span class="nn">draco.server</span> <span class="kn">import</span> <span class="n">DracoAPI</span>
+
+<span class="n">draco_api</span> <span class="o">=</span> <span class="n">DracoAPI</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Run by executing the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>uvicorn my_server:draco_api.app --reload
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The command <code class="docutils literal notranslate"><span class="pre">uvicorn</span> <span class="pre">my_server:my_app</span> <span class="pre">--reload</span></code> refers to:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">my_server</span></code>: the file <code class="docutils literal notranslate"><span class="pre">my_server.py</span></code> (the Python “module”).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">draco_api.app</span></code>: the internal <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code> app of the <code class="docutils literal notranslate"><span class="pre">draco_api</span></code> instance, declared with the line <code class="docutils literal notranslate"><span class="pre">draco_api</span> <span class="pre">=</span> <span class="pre">DracoAPI()</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--reload</span></code>: make the server restart after code changes. Only use for development.</p></li>
+</ul>
+</div>
+</section>
+<section id="via-main">
+<h5>Via <code class="docutils literal notranslate"><span class="pre">__main__</span></code><a class="headerlink" href="#via-main" title="Permalink to this headline">#</a></h5>
+<p>The example below demonstrates how to spin up a server instance using a Python module as <code class="docutils literal notranslate"><span class="pre">__main__</span></code> using <code class="docutils literal notranslate"><span class="pre">uvicorn</span></code>.
+This might be useful if you would like to programmatically set server configurations such as host, port, workers, etc.</p>
+<p>Create a Python file called <code class="docutils literal notranslate"><span class="pre">my_server.py</span></code> and add the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_server.py</span>
+<span class="kn">from</span> <span class="nn">draco.server</span> <span class="kn">import</span> <span class="n">DracoAPI</span>
+<span class="kn">import</span> <span class="nn">uvicorn</span>
+
+<span class="n">draco_api</span> <span class="o">=</span> <span class="n">DracoAPI</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;my_server:draco_api.app&quot;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span> <span class="n">reload</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="customizing-existing-routes">
+<h4>Customizing Existing Routes<a class="headerlink" href="#customizing-existing-routes" title="Permalink to this headline">#</a></h4>
+<p>If you are satisfied with the functionality of the existing routes but would like to customize their metadata (endpoint
+name, OpenAPI tags, etc.), you can do so by creating custom instances of our <code class="docutils literal notranslate"><span class="pre">BaseDracoRouter</span></code> implementations. The core
+routers listed below.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="../api/server.html#clingorouter"><code class="docutils literal notranslate"><span class="pre">ClingoRouter</span></code></a>: exposes capabilities of the <a class="reference external" href="https://potassco.org/clingo/">Clingo</a>
+solver</p></li>
+<li><p><a class="reference external" href="../api/server.html#dracorouter"><code class="docutils literal notranslate"><span class="pre">DracoRouter</span></code></a>: exposes capabilities of the injected <a class="reference internal" href="../api/draco.html"><span class="doc std std-doc">Draco</span></a>
+instance</p></li>
+<li><p><a class="reference external" href="../api/server.html#utilityrouter"><code class="docutils literal notranslate"><span class="pre">UtilityRouter</span></code></a>: exposes functions to convert between different response formats</p></li>
+</ul>
+<p>The example below demonstrates how you can modify the endpoint prefix and OpenAPI tags of core routers.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_server.py</span>
+<span class="kn">from</span> <span class="nn">draco</span> <span class="kn">import</span> <span class="n">Draco</span>
+<span class="kn">from</span> <span class="nn">draco.server.routers</span> <span class="kn">import</span> <span class="n">DracoRouter</span><span class="p">,</span> <span class="n">UtilityRouter</span>
+<span class="kn">from</span> <span class="nn">draco.server</span> <span class="kn">import</span> <span class="n">DracoAPI</span>
+
+<span class="n">draco</span> <span class="o">=</span> <span class="n">Draco</span><span class="p">()</span>
+<span class="n">draco_router</span> <span class="o">=</span> <span class="n">DracoRouter</span><span class="p">(</span><span class="n">draco</span><span class="p">,</span>
+                           <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;/my-draco&#39;</span><span class="p">,</span>
+                           <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;My Draco Tag&#39;</span><span class="p">])</span>
+<span class="n">utility_router</span> <span class="o">=</span> <span class="n">UtilityRouter</span><span class="p">(</span><span class="n">draco</span><span class="p">,</span>
+                               <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;/my-utility&#39;</span><span class="p">,</span>
+                               <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;My Utility Tag&#39;</span><span class="p">])</span>
+<span class="n">my_base_routers</span> <span class="o">=</span> <span class="p">[</span><span class="n">draco_router</span><span class="p">,</span> <span class="n">utility_router</span><span class="p">]</span>
+<span class="n">my_api</span> <span class="o">=</span> <span class="n">DracoAPI</span><span class="p">(</span><span class="n">draco</span><span class="o">=</span><span class="n">draco</span><span class="p">,</span> <span class="n">base_routers</span><span class="o">=</span><span class="n">my_base_routers</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can run the server using the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>uvicorn my_server:my_api.app
+</pre></div>
+</div>
+<p>Navigate to <a class="reference external" href="http://localhost:8000/docs">http://localhost:8000/docs</a> to see the updated endpoint names and tags.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Since we did not import the <code class="docutils literal notranslate"><span class="pre">ClingoRouter</span></code> and passed it into the <code class="docutils literal notranslate"><span class="pre">my_base_routers</span></code> list in the example above,
+the <code class="docutils literal notranslate"><span class="pre">/clingo</span></code> endpoint will not be available. However, you can import it and add a default instance of it
+to the list if you wish to do so.</p>
+</div>
+</section>
+<section id="adding-new-routes">
+<h4>Adding New Routes<a class="headerlink" href="#adding-new-routes" title="Permalink to this headline">#</a></h4>
+<p>As <code class="docutils literal notranslate"><span class="pre">DracoAPI</span></code> makes heavy use of <code class="docutils literal notranslate"><span class="pre">FastAPI</span></code>, all its rules for adding new routes apply to <code class="docutils literal notranslate"><span class="pre">DracoAPI</span></code> as well. You can
+familiarize yourself with the <a class="reference external" href="https://fastapi.tiangolo.com/tutorial/bigger-applications/">FastAPI documentation</a> to
+learn more about how to add new routes the “FastAPI way”.</p>
+<p>In this example we are focusing on adding a new route by creating a custom <code class="docutils literal notranslate"><span class="pre">BaseDracoRouter</span></code> implementation. The code
+below is the implementation of an extremely simple endpoint, available at <code class="docutils literal notranslate"><span class="pre">/metadata/doc</span></code> which will return the module
+documentation of the used <code class="docutils literal notranslate"><span class="pre">Draco</span></code> instance.</p>
+<p>Create a Python file called <code class="docutils literal notranslate"><span class="pre">my_server.py</span></code> and add the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_server.py</span>
+<span class="kn">import</span> <span class="nn">pydantic</span>
+
+<span class="kn">import</span> <span class="nn">draco.server.routers</span> <span class="k">as</span> <span class="nn">routers</span>
+<span class="kn">from</span> <span class="nn">draco</span> <span class="kn">import</span> <span class="n">Draco</span>
+<span class="kn">from</span> <span class="nn">draco.server</span> <span class="kn">import</span> <span class="n">DracoAPI</span>
+
+
+<span class="k">class</span> <span class="nc">DracoDocReturn</span><span class="p">(</span><span class="n">pydantic</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Pydantic model for our custom endpoint.&quot;&quot;&quot;</span>
+
+    <span class="n">content</span><span class="p">:</span> <span class="nb">str</span>
+
+
+<span class="k">class</span> <span class="nc">DracoMetadataRouter</span><span class="p">(</span><span class="n">routers</span><span class="o">.</span><span class="n">BaseDracoRouter</span><span class="p">):</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_register</span><span class="p">(</span><span class="n">router</span><span class="p">:</span> <span class="n">routers</span><span class="o">.</span><span class="n">BaseDracoRouter</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method for registering the endpoints.</span>
+
+<span class="sd">        We are using a static method here,</span>
+<span class="sd">        since we expect the endpoint structure to be the same</span>
+<span class="sd">        for all instances of this router,</span>
+<span class="sd">        hence we are defining it in a class-scoped method.</span>
+
+<span class="sd">        However, we are not expecting that each router will use the</span>
+<span class="sd">        same dependencies, therefore we are passing a pre-configured `router` instance</span>
+<span class="sd">        as a parameter to this method, allowing us to use it to register the endpoints</span>
+<span class="sd">        while being able to transparently use its custom dependencies, such as</span>
+<span class="sd">        a customized `Draco` instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/doc&quot;</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">draco_doc</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">DracoDocReturn</span><span class="p">:</span>
+            <span class="c1"># Note that we can access the server&#39;s Draco instance through the router</span>
+            <span class="k">return</span> <span class="n">DracoDocReturn</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">router</span><span class="o">.</span><span class="n">draco</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+
+
+<span class="c1"># This instance might be customized via constructor params</span>
+<span class="n">my_draco</span> <span class="o">=</span> <span class="n">Draco</span><span class="p">()</span>
+
+<span class="c1"># the core routers provided by `draco.server`, configured with the `my_draco` instance</span>
+<span class="n">core_routers</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">routers</span><span class="o">.</span><span class="n">ClingoRouter</span><span class="p">(</span><span class="n">my_draco</span><span class="p">),</span>
+    <span class="n">routers</span><span class="o">.</span><span class="n">DracoRouter</span><span class="p">(</span><span class="n">my_draco</span><span class="p">),</span>
+    <span class="n">routers</span><span class="o">.</span><span class="n">UtilityRouter</span><span class="p">(</span><span class="n">my_draco</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="c1"># our custom router, configured with the `my_draco` instance</span>
+<span class="n">custom_routers</span> <span class="o">=</span> <span class="p">[</span><span class="n">DracoMetadataRouter</span><span class="p">(</span><span class="n">my_draco</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;/metadata&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Metadata&quot;</span><span class="p">])]</span>
+
+<span class="c1"># a list of all routers to be used by the server which inherit from `BaseDracoRouter`</span>
+<span class="n">base_routers</span> <span class="o">=</span> <span class="n">core_routers</span> <span class="o">+</span> <span class="n">custom_routers</span>
+
+<span class="c1"># Constructing our server instance with the custom routers</span>
+<span class="n">my_api</span> <span class="o">=</span> <span class="n">DracoAPI</span><span class="p">(</span><span class="n">draco</span><span class="o">=</span><span class="n">my_draco</span><span class="p">,</span> <span class="n">base_routers</span><span class="o">=</span><span class="n">base_routers</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can run the server using the following command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>uvicorn my_server:my_api.app
+</pre></div>
+</div>
+<p>Navigate to <a class="reference external" href="http://localhost:8000/docs">http://localhost:8000/docs</a> to see the custom endpoint <code class="docutils literal notranslate"><span class="pre">/metadata/doc</span></code> tagged
+with <code class="docutils literal notranslate"><span class="pre">Metadata</span></code> as well as the core endpoints.</p>
+</section>
+</section>
+</section>
+<section id="further-customization">
+<h2>Further Customization<a class="headerlink" href="#further-customization" title="Permalink to this headline">#</a></h2>
+<p>As the examples above demonstrate, <code class="docutils literal notranslate"><span class="pre">DracoAPI</span></code> is highly customizable and extensible, allowing for treating routers as
+building blocks for your own custom server implementation. If the examples here are not enough to satisfy your needs,
+you can always take a look at the capabilities of the underlying <a class="reference external" href="https://fastapi.tiangolo.com/">FastAPI</a> framework.</p>
+<p>If you have suggestions more specific to <code class="docutils literal notranslate"><span class="pre">Draco</span></code> or <code class="docutils literal notranslate"><span class="pre">DracoAPI</span></code>, feel free to
+<a class="reference external" href="https://github.com/cmudig/draco2/issues/new/choose">open an issue</a> for it.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./applications"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="debug_draco.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Draco Debugging</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="renderer.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Visualization Renderer</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By CMU Data Interaction Group<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
